@@ -2454,7 +2454,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hospital Occupancy
+  m_Text: Space Occupancy
 --- !u!222 &1049628403
 CanvasRenderer:
   m_ObjectHideFlags: 0
