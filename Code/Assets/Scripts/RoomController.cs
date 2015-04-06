@@ -5,11 +5,12 @@ public class RoomController : MonoBehaviour {
 
     //public GameObject room;
     private Animator roomAnimator;
-	
+    public Animator roomGridAnimator;
     
     void Start () {
         roomAnimator = this.GetComponent<Animator>();
         roomAnimator.SetBool("Occupied", false); // Default Animator State - False.
+        roomGridAnimator.SetBool("Occupied", false); // Default Animator State - False.
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -17,6 +18,7 @@ public class RoomController : MonoBehaviour {
         if (other.tag == "Patient")
         {
             roomAnimator.SetBool("Occupied", true);
+            roomGridAnimator.SetBool("Occupied", true);
         }
         //else if (other.tag = "Doctor") // JUST IN CASE
         //{
@@ -29,6 +31,7 @@ public class RoomController : MonoBehaviour {
         if (other.tag == "Patient")
         {
             roomAnimator.SetBool("Occupied", false);
+            roomGridAnimator.SetBool("Occupied", false);
         }
     }
 }

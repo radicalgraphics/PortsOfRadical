@@ -14,7 +14,7 @@ public class FindFreeRoom : MonoBehaviour {
     private bool roomVisited;                           // to set that the patient goes to a room or is in the room.
     private bool exit;                                  // exit is to control that the patient is getting out of the hospital.
     private bool waitForRoom;                           // If the rooms are taken the patient has to wait.
-    
+    public PatientSpawnController patientSpawnController;
 	// Use this for initialization
 	void Start () {
         patientsOnPath = 0;
@@ -23,6 +23,7 @@ public class FindFreeRoom : MonoBehaviour {
         exit = false;
         roomPathsList = new List<BezierPathManager>();
         exitPathsList = new List<BezierPathManager>();
+
         // We go through all the Paths in the Waypoint Manager.
 	    foreach (Transform path in waypointManager){
             
@@ -128,18 +129,16 @@ public class FindFreeRoom : MonoBehaviour {
             }
             exit = true;
             roomPathTaken.transform.GetComponent<RoomPathData>().ClearPath();
+            
+            patientSpawnController.ReducePatient();
         }
-
+        
     }
 
     public IEnumerator ChangePath(BezierPathManager path)
     {
         yield return new WaitForSeconds(1.0f);
         transform.GetComponent<bezierMove>().SetPath(path);
-
-
-        
-        
-        //transform.GetComponent<bezierMove>().StartMove();
     }
+
 }
