@@ -18,5 +18,9 @@ public class RoomPathData : MonoBehaviour {
     {
         patientsOnPath++;
     }
+    public void ClearPath()
+    {
+        patientsOnPath = 0;
+    }
 	
 }

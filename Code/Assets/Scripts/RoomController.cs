@@ -3,12 +3,12 @@ using System.Collections;
 
 public class RoomController : MonoBehaviour {
 
-    public GameObject room;
+    //public GameObject room;
     private Animator roomAnimator;
 	
     
     void Start () {
-        roomAnimator = room.GetComponent<Animator>();
+        roomAnimator = this.GetComponent<Animator>();
         roomAnimator.SetBool("Occupied", false); // Default Animator State - False.
 	}
 
