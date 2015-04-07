@@ -24,7 +24,7 @@ public class PatientSpawnController : MonoBehaviour {
 
     public void GenerateNewPatient()
     {
-        if (patientNumber < 8)
+        if (patientNumber < 16)
         {
             GameObject newPatient = Instantiate(patient, spawnPosition.transform.position, Quaternion.identity) as GameObject;
             newPatient.GetComponent<bezierMove>().pathContainer = path;

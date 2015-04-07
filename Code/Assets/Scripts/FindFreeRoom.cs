@@ -100,10 +100,6 @@ public class FindFreeRoom : MonoBehaviour {
             {
                 StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath102"), Random.Range(2.0f, 8.0f)));
             }
-            else if (roomPathTaken.name == "roomPath102")
-            {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath102"), Random.Range(2.0f, 8.0f)));
-            }
             else if (roomPathTaken.name == "roomPath103")
             {
                 StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath103"), Random.Range(2.0f, 8.0f)));
@@ -127,6 +123,38 @@ public class FindFreeRoom : MonoBehaviour {
             else if (roomPathTaken.name == "roomPath108")
             {
                 StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath108"), Random.Range(2.0f, 8.0f)));
+            }
+            else if (roomPathTaken.name == "roomPath109")
+            {
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath109"), Random.Range(2.0f, 8.0f)));
+            }
+            else if (roomPathTaken.name == "roomPath110")
+            {
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath110"), Random.Range(2.0f, 8.0f)));
+            }
+            else if (roomPathTaken.name == "roomPath111")
+            {
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath111"), Random.Range(2.0f, 8.0f)));
+            }
+            else if (roomPathTaken.name == "roomPath112")
+            {
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath112"), Random.Range(2.0f, 8.0f)));
+            }
+            else if (roomPathTaken.name == "roomPath113")
+            {
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath113"), Random.Range(2.0f, 8.0f)));
+            }
+            else if (roomPathTaken.name == "roomPath114")
+            {
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath114"), Random.Range(2.0f, 8.0f)));
+            }
+            else if (roomPathTaken.name == "roomPath115")
+            {
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath115"), Random.Range(2.0f, 8.0f)));
+            }
+            else if (roomPathTaken.name == "roomPath116")
+            {
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath116"), Random.Range(2.0f, 8.0f)));
             }
             exit = true;
             
