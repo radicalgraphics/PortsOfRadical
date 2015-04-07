@@ -11,6 +11,7 @@ public class PatientSpawnController : MonoBehaviour {
     private GameObject newPatient;
     public Transform waypointManagerTransform;
     private int patientNumber = 0;
+    public PatientSpawnController spawnController;
 	// Use this for initialization
     //void Start () {
 	
@@ -28,6 +29,7 @@ public class PatientSpawnController : MonoBehaviour {
             GameObject newPatient = Instantiate(patient, spawnPosition.transform.position, Quaternion.identity) as GameObject;
             newPatient.GetComponent<bezierMove>().pathContainer = path;
             newPatient.GetComponent<FindFreeRoom>().waypointManager = waypointManagerTransform;
+            newPatient.GetComponent<FindFreeRoom>().patientSpawnController = this;
             patientNumber++;
         }
     }

@@ -131,6 +131,10 @@ public class FindFreeRoom : MonoBehaviour {
             roomPathTaken.transform.GetComponent<RoomPathData>().ClearPath();
             
             patientSpawnController.ReducePatient();
+        } else if (exit)
+        {
+            //this.gameObject.SetActive(false);
+            Destroy(this.gameObject);
         }
         
     }
