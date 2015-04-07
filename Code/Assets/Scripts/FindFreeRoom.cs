@@ -15,6 +15,7 @@ public class FindFreeRoom : MonoBehaviour {
     private bool exit;                                  // exit is to control that the patient is getting out of the hospital.
     private bool waitForRoom;                           // If the rooms are taken the patient has to wait.
     public PatientSpawnController patientSpawnController;
+    //public float timeOnRoom;
 	// Use this for initialization
 	void Start () {
         patientsOnPath = 0;
@@ -58,18 +59,18 @@ public class FindFreeRoom : MonoBehaviour {
                     //this.transform.GetComponent<bezierMove>().pathContainer = roomPath;
 
                     // We have found a free room and we send the patient to that room.
-                    roomVisited = true;
+                   
                     transform.GetComponent<bezierMove>().moveToPath = true;
                     
                     // We save the path to the taken room to use it later to exit from the building.
                     roomPathTaken = roomPath;
-                    StartCoroutine(ChangePath(roomPath));
+                    StartCoroutine(ChangePath(roomPath, 2.0f));
 
                     if (roomPath.tag == "RoomPath")
                     {
                         roomPath.transform.GetComponent<RoomPathData>().SetPatientsOnPath();
                     }
-
+                    roomVisited = true;
                     return;
                 }
                 else
@@ -93,44 +94,44 @@ public class FindFreeRoom : MonoBehaviour {
         {
             if (roomPathTaken.name == "roomPath101")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath101")));
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath101"), Random.Range(2.0f, 8.0f)));
             }
             else if (roomPathTaken.name == "roomPath102")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath102")));
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath102"), Random.Range(2.0f, 8.0f)));
             }
             else if (roomPathTaken.name == "roomPath102")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath102")));
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath102"), Random.Range(2.0f, 8.0f)));
             }
             else if (roomPathTaken.name == "roomPath103")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath103")));
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath103"), Random.Range(2.0f, 8.0f)));
             }
             else if (roomPathTaken.name == "roomPath104")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath104")));
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath104"), Random.Range(2.0f, 8.0f)));
             }
             else if (roomPathTaken.name == "roomPath105")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath105")));
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath105"), Random.Range(2.0f, 8.0f)));
             }
             else if (roomPathTaken.name == "roomPath106")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath106")));
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath106"), Random.Range(2.0f, 8.0f)));
             }
             else if (roomPathTaken.name == "roomPath107")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath107")));
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath107"), Random.Range(2.0f, 8.0f)));
             }
             else if (roomPathTaken.name == "roomPath108")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath108")));
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath108"), Random.Range(2.0f, 8.0f)));
             }
             exit = true;
-            roomPathTaken.transform.GetComponent<RoomPathData>().ClearPath();
             
-            patientSpawnController.ReducePatient();
+            
+            
         } else if (exit)
         {
             //this.gameObject.SetActive(false);
@@ -139,10 +140,18 @@ public class FindFreeRoom : MonoBehaviour {
         
     }
 
-    public IEnumerator ChangePath(BezierPathManager path)
+    public IEnumerator ChangePath(BezierPathManager path, float time)
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(time);
+
         transform.GetComponent<bezierMove>().SetPath(path);
+
+        if (roomVisited && exit)
+        {
+            patientSpawnController.ReducePatient();
+            roomPathTaken.transform.GetComponent<RoomPathData>().ClearPath();
+        }
+        
     }
 
 }
