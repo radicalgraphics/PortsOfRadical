@@ -8,12 +8,14 @@ public class FindFreeRoom : MonoBehaviour {
     private BezierPathManager bezierPathManager;
     public List<BezierPathManager> roomPathsList;
     public List<BezierPathManager> exitPathsList;
+    public List<BezierPathManager> delayPathsList;
     private BezierPathManager roomPathTaken;
     public Transform waypointManager;
     private int patientsOnPath;                         // Patients on a path.
     private bool roomVisited;                           // to set that the patient goes to a room or is in the room.
     private bool exit;                                  // exit is to control that the patient is getting out of the hospital.
     private bool waitForRoom;                           // If the rooms are taken the patient has to wait.
+    private bool takingABreak;
     public PatientSpawnController patientSpawnController;
     //public float timeOnRoom;
 	// Use this for initialization
@@ -21,9 +23,11 @@ public class FindFreeRoom : MonoBehaviour {
         patientsOnPath = 0;
         waitForRoom = false;
         roomVisited = false;
+        takingABreak = false;
         exit = false;
         roomPathsList = new List<BezierPathManager>();
         exitPathsList = new List<BezierPathManager>();
+        delayPathsList = new List<BezierPathManager>();
 
         // We go through all the Paths in the Waypoint Manager.
 	    foreach (Transform path in waypointManager){
@@ -34,11 +38,15 @@ public class FindFreeRoom : MonoBehaviour {
                 bezierPathManager = path.GetComponent<BezierPathManager>();
                 roomPathsList.Add(bezierPathManager);
             }
-
             if (path.tag == "ExitPath")
             {
                 bezierPathManager = path.GetComponent<BezierPathManager>();
                 exitPathsList.Add(bezierPathManager);
+            }
+            if (path.tag == "DelayPath")
+            {
+                bezierPathManager = path.GetComponent<BezierPathManager>();
+                delayPathsList.Add(bezierPathManager);
             }
         }
 	}
@@ -90,7 +98,8 @@ public class FindFreeRoom : MonoBehaviour {
             }
         }
         // If the patient has visited a room it goes out of the building.
-        else if (roomVisited && !exit)
+        // There are special cases for Room 103 and ... TBD
+        else if (roomVisited && !exit && !takingABreak)
         {
             if (roomPathTaken.name == "roomPath101")
             {
@@ -100,9 +109,10 @@ public class FindFreeRoom : MonoBehaviour {
             {
                 StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath102"), Random.Range(2.0f, 8.0f)));
             }
+                // For this Room we will set the Patient will take a Break.
             else if (roomPathTaken.name == "roomPath103")
             {
-                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath103"), Random.Range(2.0f, 8.0f)));
+                StartCoroutine(TakeABreak(delayPathsList.Find(delayPath => delayPath.name == "roomPathDelay103"), Random.Range(2.0f, 5.0f)));
             }
             else if (roomPathTaken.name == "roomPath104")
             {
@@ -156,11 +166,34 @@ public class FindFreeRoom : MonoBehaviour {
             {
                 StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath116"), Random.Range(2.0f, 8.0f)));
             }
-            exit = true;
+
+            if (roomPathTaken.name != "roomPath103")
+            {
+                exit = true;
+            }
             
+
+        }
+        else if (takingABreak)              // If the Patient is taking a break.
+        {
+            // If the patient has taken a break.
+            if (roomPathTaken.name == "roomPathDelay103")
+            {
+                StartCoroutine(GetBackFromBreak(delayPathsList.Find(delayPath => delayPath.name == "roomPathDelayBack103"), Random.Range(2.0f, 5.0f)));
+            }
+            // If the patient has get back from the break.
+            else if (roomPathTaken.name == "roomPathDelayBack103")
+            {
+                roomPathTaken = roomPathsList.Find(roomPath => roomPath.name == "roomPath103");
+                StartCoroutine(ChangePath(exitPathsList.Find(exitPath => exitPath.name == "exitPath103"), Random.Range(2.0f, 8.0f)));
+                
+                takingABreak = false;
+                exit = true;
+            }
+
             
-            
-        } else if (exit)
+        }        
+        else if (exit)
         {
             //this.gameObject.SetActive(false);
             Destroy(this.gameObject);
@@ -168,14 +201,33 @@ public class FindFreeRoom : MonoBehaviour {
         
     }
 
-    public IEnumerator ChangePath(BezierPathManager path, float time)
+    public IEnumerator TakeABreak(BezierPathManager path, float time)
+    {
+        exit = false;                                           // It's not getting out yet.
+        takingABreak = true;                                    // We set that it's taking a break.
+        yield return new WaitForSeconds(time);                  // Wait for 'time' seconds.
+        transform.GetComponent<bezierMove>().SetPath(path);     // It goes to the break path.
+        roomPathTaken = path;                                   // The taken path is updated.
+        
+    }
+
+    public IEnumerator GetBackFromBreak(BezierPathManager path, float time)
     {
         yield return new WaitForSeconds(time);
+        roomPathTaken = path;                                   // The taken path is updated.
+        transform.GetComponent<bezierMove>().SetPath(path);
+    }
 
+    public IEnumerator ChangePath(BezierPathManager path, float time)
+    {
+        
+        yield return new WaitForSeconds(time);
+        
         transform.GetComponent<bezierMove>().SetPath(path);
 
         if (roomVisited && exit)
         {
+            //yield return new WaitForSeconds(10.0f); // If the patient left the room to leave the hospital we wait 10 seconds for the delay sensor.
             patientSpawnController.ReducePatient();
             roomPathTaken.transform.GetComponent<RoomPathData>().ClearPath();
         }
