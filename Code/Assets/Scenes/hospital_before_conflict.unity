@@ -494,6 +494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 905560645}
+  delayTime: 10
 --- !u!95 &26267169
 Animator:
   serializedVersion: 3
@@ -2785,6 +2786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 1455087642}
+  delayTime: 10
 --- !u!95 &264971176
 Animator:
   serializedVersion: 3
@@ -3969,6 +3971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 312996322}
+  delayTime: 10
 --- !u!95 &361093217
 Animator:
   serializedVersion: 3
@@ -4512,6 +4515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 372510390}
+  delayTime: 10
 --- !u!95 &428647450
 Animator:
   serializedVersion: 3
@@ -5781,6 +5785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 1057974985}
+  delayTime: 10
 --- !u!95 &547506997
 Animator:
   serializedVersion: 3
@@ -7319,6 +7324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 514395407}
+  delayTime: 10
 --- !u!95 &664740411
 Animator:
   serializedVersion: 3
@@ -7700,6 +7706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 728783962}
+  delayTime: 10
 --- !u!95 &690111182
 Animator:
   serializedVersion: 3
@@ -8366,6 +8373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 617624163}
+  delayTime: 10
 --- !u!95 &781759477
 Animator:
   serializedVersion: 3
@@ -10067,6 +10075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 2043742948}
+  delayTime: 10
 --- !u!95 &952955653
 Animator:
   serializedVersion: 3
@@ -12379,6 +12388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 881990202}
+  delayTime: 10
 --- !u!95 &1160434811
 Animator:
   serializedVersion: 3
@@ -14437,6 +14447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 1760320891}
+  delayTime: 10
 --- !u!95 &1433226341
 Animator:
   serializedVersion: 3
@@ -14854,6 +14865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 1839475354}
+  delayTime: 10
 --- !u!95 &1474841533
 Animator:
   serializedVersion: 3
@@ -15284,6 +15296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 1163025630}
+  delayTime: 10
 --- !u!95 &1507085129
 Animator:
   serializedVersion: 3
@@ -16782,6 +16795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 611226801}
+  delayTime: 10
 --- !u!95 &1649308219
 Animator:
   serializedVersion: 3
@@ -18750,6 +18764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 987344592}
+  delayTime: 10
 --- !u!95 &1887935740
 Animator:
   serializedVersion: 3
@@ -20033,6 +20048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomGridAnimator: {fileID: 1222377561}
+  delayTime: 10
 --- !u!95 &2010480813
 Animator:
   serializedVersion: 3

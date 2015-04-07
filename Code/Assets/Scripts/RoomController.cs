@@ -6,8 +6,9 @@ public class RoomController : MonoBehaviour {
     //public GameObject room;
     private Animator roomAnimator;
     public Animator roomGridAnimator;
-    
+    public float delayTime = 10.0f;
     void Start () {
+        
         roomAnimator = this.GetComponent<Animator>();
         roomAnimator.SetBool("Occupied", false); // Default Animator State - False.
         roomGridAnimator.SetBool("Occupied", false); // Default Animator State - False.
@@ -17,8 +18,8 @@ public class RoomController : MonoBehaviour {
     {
         if (other.tag == "Patient")
         {
-            roomAnimator.SetBool("Occupied", true);
-            roomGridAnimator.SetBool("Occupied", true);
+            roomAnimator.SetInteger("state", 1);
+            roomGridAnimator.SetInteger("state", 1);
         }
         //else if (other.tag = "Doctor") // JUST IN CASE
         //{
@@ -26,12 +27,28 @@ public class RoomController : MonoBehaviour {
         //} 
     }
 
+    void OnTriggerStay2D(Collider2D other)
+    {
+        roomAnimator.SetInteger("state", 1);
+        roomGridAnimator.SetInteger("state", 1);
+    }
+
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == "Patient")
         {
-            roomAnimator.SetBool("Occupied", false);
-            roomGridAnimator.SetBool("Occupied", false);
+            StartCoroutine(SetSensorDelay());
+            //roomAnimator.SetBool("Occupied", false);
+            //roomGridAnimator.SetBool("Occupied", false);
         }
+    }
+
+    public IEnumerator SetSensorDelay()
+    {
+        roomAnimator.SetInteger("state", 2);
+        roomGridAnimator.SetInteger("state", 2);
+        yield return new WaitForSeconds(delayTime);
+        roomAnimator.SetInteger("state", 0);
+        roomGridAnimator.SetInteger("state", 0);
     }
 }
