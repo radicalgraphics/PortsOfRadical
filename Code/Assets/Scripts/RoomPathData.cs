@@ -4,7 +4,7 @@ using System.Collections;
 public class RoomPathData : MonoBehaviour {
 
     public int patientsOnPath;
-
+    public RoomController roomController;
 	void Start () {
         patientsOnPath = 0;
 	}
@@ -22,5 +22,8 @@ public class RoomPathData : MonoBehaviour {
     {
         patientsOnPath = 0;
     }
-	
+	public int GetRoomState()
+    {
+        return roomController.GetRoomState();
+    }
 }

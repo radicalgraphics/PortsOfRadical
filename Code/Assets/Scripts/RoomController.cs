@@ -6,8 +6,13 @@ public class RoomController : MonoBehaviour {
     //public GameObject room;
     private Animator roomAnimator;
     public Animator roomGridAnimator;
-    public float delayTime = 10.0f;
+    public float delayTime = 8.0f;
     private bool patientOnTheRoom;
+
+    // States
+    // 0 - Available Room.
+    // 1 - Room occupied.
+    // 2 - Room on delay.
     void Start () {
         patientOnTheRoom = false;
         roomAnimator = this.GetComponent<Animator>();
@@ -58,5 +63,10 @@ public class RoomController : MonoBehaviour {
             roomGridAnimator.SetInteger("state", 0);
         }
         
+    }
+
+    public int GetRoomState()
+    {
+        return roomAnimator.GetInteger("state");
     }
 }

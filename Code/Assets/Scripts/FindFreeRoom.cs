@@ -17,9 +17,11 @@ public class FindFreeRoom : MonoBehaviour {
     private bool waitForRoom;                           // If the rooms are taken the patient has to wait.
     private bool takingABreak;
     public PatientSpawnController patientSpawnController;
+    private bool waiting;
     //public float timeOnRoom;
 	// Use this for initialization
 	void Start () {
+        waiting = false;
         patientsOnPath = 0;
         waitForRoom = false;
         roomVisited = false;
@@ -52,7 +54,7 @@ public class FindFreeRoom : MonoBehaviour {
 	}
 	
     public void CheckWhereToGo(){
-
+        //roomVisited = false;
         // If the patient didn't visit a room.
         if (!roomVisited)
         {
@@ -60,42 +62,49 @@ public class FindFreeRoom : MonoBehaviour {
 
             foreach (BezierPathManager roomPath in roomPathsList)
             {
-                patientsOnPath = roomPath.GetComponent<RoomPathData>().GetPatientsOnPath();
-                // If the patient finds an empty room (path) we change his/her Patient Path to that roomPath.
-                if (patientsOnPath == 0)
+                if (roomPath.GetComponent<RoomPathData>().GetRoomState() == 0)
                 {
-                    //this.transform.GetComponent<bezierMove>().pathContainer = roomPath;
 
-                    // We have found a free room and we send the patient to that room.
-                   
-                    transform.GetComponent<bezierMove>().moveToPath = true;
-                    
-                    // We save the path to the taken room to use it later to exit from the building.
-                    roomPathTaken = roomPath;
-                    StartCoroutine(ChangePath(roomPath, 2.0f));
-
-                    if (roomPath.tag == "RoomPath")
+                
+                    patientsOnPath = roomPath.GetComponent<RoomPathData>().GetPatientsOnPath();
+                    // If the patient finds an empty room (path) we change his/her Patient Path to that roomPath.
+                    if (patientsOnPath == 0)
                     {
-                        roomPath.transform.GetComponent<RoomPathData>().SetPatientsOnPath();
+                        waiting = false;
+                        Debug.Log("Waiting is false?: " + waiting);
+                        // We have found a free room and we send the patient to that room.
+                        transform.GetComponent<bezierMove>().moveToPath = true;
+                    
+                        // We save the path to the taken room to use it later to exit from the building.
+                        roomPathTaken = roomPath;
+                        StartCoroutine(ChangePath(roomPath, 2.0f));
+
+                        if (roomPath.tag == "RoomPath")
+                        {
+                            roomPath.transform.GetComponent<RoomPathData>().SetPatientsOnPath();
+                        }
+                        roomVisited = true;
+                        Debug.Log("roomVisited is true?: " + waiting);
+                        return;
                     }
-                    roomVisited = true;
-                    return;
+                    else
+                    {
+                        continue;
+                    
+                    }
                 }
                 else
                 {
-                    continue;
-                    //while (patientsOnPath > 0)
-                    //{
-                    //    waitForRoom = true;
-                    //}
-                    //if (patientsOnPath == 0)
-                    //{
-                    //    waitForRoom = false;
-                    //}
-                    
+                    waiting = true;
                 }
-
             }
+            
+            if (waiting)
+            {
+                Debug.Log("Patient: " + gameObject.GetInstanceID() + " - waiting: " + waiting);
+                StartCoroutine(FunctionLibrary.CallWithDelay(CheckWhereToGo, 0.5f));
+            }
+            
         }
         // If the patient has visited a room it goes out of the building.
         // There are special cases for Room 103 and ... TBD
@@ -192,28 +201,39 @@ public class FindFreeRoom : MonoBehaviour {
             }
 
             
-        }        
+        }
         else if (exit)
         {
             //this.gameObject.SetActive(false);
             Destroy(this.gameObject);
         }
-        
+        //else
+        //{
+        //    waiting = true;
+        //}
+
+        //if (waiting)
+        //{
+        //    Debug.Log("Check Again 2..." + " - roomVisited: " + roomVisited);
+        //    FunctionLibrary.CallWithDelay(CheckWhereToGo, 1.0f);
+        //}
     }
 
     public IEnumerator TakeABreak(BezierPathManager path, float time)
     {
+        
         exit = false;                                           // It's not getting out yet.
         takingABreak = true;                                    // We set that it's taking a break.
         yield return new WaitForSeconds(time);                  // Wait for 'time' seconds.
         transform.GetComponent<bezierMove>().SetPath(path);     // It goes to the break path.
         roomPathTaken = path;                                   // The taken path is updated.
-        
+        this.GetComponent<Animator>().SetBool("waiting", true);
     }
 
     public IEnumerator GetBackFromBreak(BezierPathManager path, float time)
     {
         yield return new WaitForSeconds(time);
+        this.GetComponent<Animator>().SetBool("waiting", false);
         roomPathTaken = path;                                   // The taken path is updated.
         transform.GetComponent<bezierMove>().SetPath(path);
     }
