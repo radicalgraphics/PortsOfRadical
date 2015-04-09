@@ -12,6 +12,7 @@ public class PatientSpawnController : MonoBehaviour {
     public Transform waypointManagerTransform;
     private int patientNumber = 0;
     public PatientSpawnController spawnController;
+    public int maxPatients;
 	// Use this for initialization
     //void Start () {
 	
@@ -24,7 +25,7 @@ public class PatientSpawnController : MonoBehaviour {
 
     public void GenerateNewPatient()
     {
-        if (patientNumber < 16)
+        if (patientNumber < maxPatients)
         {
             GameObject newPatient = Instantiate(patient, spawnPosition.transform.position, Quaternion.identity) as GameObject;
             newPatient.GetComponent<bezierMove>().pathContainer = path;
