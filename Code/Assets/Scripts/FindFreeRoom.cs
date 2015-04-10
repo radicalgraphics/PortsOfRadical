@@ -71,7 +71,7 @@ public class FindFreeRoom : MonoBehaviour {
                     if (patientsOnPath == 0)
                     {
                         waiting = false;
-                        Debug.Log("Waiting is false?: " + waiting);
+                        Debug.Log("Waiting?: " + waiting);
                         // We have found a free room and we send the patient to that room.
                         transform.GetComponent<bezierMove>().moveToPath = true;
                     
@@ -84,7 +84,7 @@ public class FindFreeRoom : MonoBehaviour {
                             roomPath.transform.GetComponent<RoomPathData>().SetPatientsOnPath();
                         }
                         roomVisited = true;
-                        Debug.Log("roomVisited is true?: " + waiting);
+                        //Debug.Log("roomVisited is true?: " + waiting);
                         return;
                     }
                     else
@@ -93,15 +93,24 @@ public class FindFreeRoom : MonoBehaviour {
                     
                     }
                 }
-                else
-                {
-                    waiting = true;
-                }
+                
             }
-            
+
+            if (!roomVisited)
+            {
+                waiting = true;
+            }
+            else
+            {
+                waiting = false;
+            }
+
+
+
             if (waiting)
             {
-                Debug.Log("Patient: " + gameObject.GetInstanceID() + " - waiting: " + waiting);
+                //Debug.Log("Patient: " + gameObject.GetInstanceID() + " - waiting: " + waiting);
+                Debug.Log("Patient: " + gameObject.GetInstanceID() + "LlamaCorutine");
                 StartCoroutine(FunctionLibrary.CallWithDelay(CheckWhereToGo, 0.5f));
             }
             

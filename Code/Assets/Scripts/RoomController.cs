@@ -16,8 +16,11 @@ public class RoomController : MonoBehaviour {
     void Start () {
         patientOnTheRoom = false;
         roomAnimator = this.GetComponent<Animator>();
-        roomAnimator.SetBool("Occupied", false); // Default Animator State - False.
-        roomGridAnimator.SetBool("Occupied", false); // Default Animator State - False.
+        //roomAnimator.SetBool("Occupied", false); // Default Animator State - False.
+        //roomGridAnimator.SetBool("Occupied", false); // Default Animator State - False.
+
+        roomAnimator.SetInteger("state", 0);
+        roomGridAnimator.SetInteger("state", 0);
 	}
 
     void OnTriggerEnter2D(Collider2D other)
